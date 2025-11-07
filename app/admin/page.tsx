@@ -11,13 +11,39 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { createTag } from "@/server/tags";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const Admin = () => {
+  const router = useRouter();
   const [input, setInput] = useState("");
 
   function clearInput() {
     setInput("");
+  }
+
+  async function addTag(event?: React.FormEvent) {
+    if (event) event.preventDefault();
+    const name = input.trim();
+    if (!name) return;
+    try {
+      // setIsLoading(true);
+      const res = await createTag({ name });
+      if (res.success) {
+        setInput("");
+        toast.success("Tag created successfully");
+        router.refresh();
+      } else {
+        toast.error(res.message);
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to create tag");
+    } finally {
+      // setIsLoading(false);
+    }
   }
 
   return (
@@ -29,7 +55,7 @@ const Admin = () => {
               <span className="text-primary">A</span>dmin D
               <span className="text-primary">A</span>shboard
             </span>
-            <form className="mt-4">
+            <form className="mt-4" onSubmit={addTag}>
               <FieldGroup>
                 <FieldSet>
                   <FieldLegend>Tags</FieldLegend>
@@ -52,7 +78,9 @@ const Admin = () => {
                         />
 
                         <div className="flex justify-end gap-2">
-                          <Button type="submit">Add</Button>
+                          <Button type="submit" disabled={input ? false : true}>
+                            Add
+                          </Button>
                           <Button
                             variant="outline"
                             type="button"
