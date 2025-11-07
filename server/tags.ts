@@ -15,28 +15,15 @@ export const createTag = async (values: InsertTags) => {
   }
 };
 
-// export const getNotebooks = async () => {
-//   try {
-//     const session = await auth.api.getSession({
-//       headers: await headers(),
-//     });
+export const getTags = async () => {
+  try {
+    const tags = await db.query.tags.findMany();
 
-//     const userId = session?.user?.id;
-
-//     if (!userId) {
-//       return { success: false, message: "User not found" };
-//     }
-
-//     const notebooksByUser = await db.query.notebooks.findMany({
-//       where: eq(notebooks.userId, userId),
-//       with: { notes: true },
-//     });
-
-//     return { success: true, notebooks: notebooksByUser };
-//   } catch {
-//     return { success: false, message: "Failed to get notebooks" };
-//   }
-// };
+    return { success: true, tags: tags };
+  } catch {
+    return { success: false, message: "Failed to get tags" };
+  }
+};
 
 // export const getNotebookById = async (id: string) => {
 //   try {

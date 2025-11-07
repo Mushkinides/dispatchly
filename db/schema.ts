@@ -8,4 +8,9 @@ export const tags = pgTable("tags", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export type Tag = typeof tags.$inferSelect;
 export type InsertTags = typeof tags.$inferInsert;
+
+export const schema = {
+  tags,
+};
