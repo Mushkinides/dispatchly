@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -9,8 +11,15 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const Admin = () => {
+  const [input, setInput] = useState("");
+
+  function clearInput() {
+    setInput("");
+  }
+
   return (
     <>
       <div className="w-full px-2 pt-20">
@@ -38,11 +47,17 @@ const Admin = () => {
                           placeholder="New tag name"
                           type="text"
                           required
+                          value={input}
+                          onChange={(e) => setInput(e.target.value)}
                         />
 
                         <div className="flex justify-end gap-2">
-                          <Button type="submit">Submit</Button>
-                          <Button variant="outline" type="button">
+                          <Button type="submit">Add</Button>
+                          <Button
+                            variant="outline"
+                            type="button"
+                            onClick={clearInput}
+                          >
                             Clear
                           </Button>
                         </div>
