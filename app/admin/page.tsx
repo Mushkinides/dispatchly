@@ -24,10 +24,9 @@ export default async function Admin() {
               <div className="flex flex-col w-full gap-4 md:flex-row">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {tags.success &&
-                    tags?.tags?.map(
-                      (tag) => <TagItem key={tag.id} tag={tag} />
-                      // tag.name
-                    )}
+                    tags?.tags?.map((tag) => (
+                      <TagItem key={tag.id} tag={tag} />
+                    ))}
                 </div>
                 {tags.success && tags?.tags?.length == 0 && (
                   <div>No tags found</div>
