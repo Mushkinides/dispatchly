@@ -119,7 +119,7 @@ export default function HeroSection() {
                       className="rounded-xl px-5 text-base"
                     >
                       <Link href="/user">
-                        <span className="text-nowrap">Call Dashboard</span>
+                        <span className="text-nowrap">User Dashboard</span>
                       </Link>
                     </Button>
                   </div>
@@ -131,7 +131,7 @@ export default function HeroSection() {
                     className="h-10.5 rounded-xl px-5"
                   >
                     <Link href="/admin">
-                      <span className="text-nowrap">Admin Center</span>
+                      <span className="text-nowrap">Admin Dashboard</span>
                     </Link>
                   </Button>
                 </AnimatedGroup>

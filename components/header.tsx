@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { ModeToggle } from "./mode-toggle";
 
 const menuItems = [
-  { name: "Admin", href: "/admin" },
   { name: "User", href: "/user" },
+  { name: "Admin", href: "/admin" },
 ];
 
 export const HeroHeader = () => {
