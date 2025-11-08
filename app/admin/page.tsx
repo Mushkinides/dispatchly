@@ -16,22 +16,18 @@ export default async function Admin() {
               <span className="text-primary">A</span>shboard
             </span>
             <AddTagCard />
-            <FieldSeparator />
+            <FieldSeparator className="my-4" />
             <Field className="border-2 rounded-2xl py-2 px-4">
               <FieldLabel htmlFor="checkout-7j9-card-number-uw1">
                 Tags List
               </FieldLabel>
-              <div className="flex flex-col w-full gap-4 md:flex-row">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {tags.success &&
-                    tags?.tags?.map((tag) => (
-                      <TagItem key={tag.id} tag={tag} />
-                    ))}
-                </div>
-                {tags.success && tags?.tags?.length == 0 && (
-                  <div>No tags found</div>
-                )}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {tags.success &&
+                  tags?.tags?.map((tag) => <TagItem key={tag.id} tag={tag} />)}
               </div>
+              {tags.success && tags?.tags?.length == 0 && (
+                <div>No tags found</div>
+              )}
             </Field>
           </div>
         </div>

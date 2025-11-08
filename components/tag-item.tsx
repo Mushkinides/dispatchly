@@ -26,7 +26,7 @@ const TagItem = ({ tag }: TagItemProps) => {
             <ItemTitle>{tag.name}</ItemTitle>
           </ItemContent>
           <ItemActions>
-            <Button variant="outline" size="sm">
+            <Button variant="secondary" size="sm">
               Edit
             </Button>
           </ItemActions>
