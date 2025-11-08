@@ -1,4 +1,5 @@
 import AddTagCard from "@/components/add-tag-card";
+import { HeroHeader } from "@/components/header";
 import TagItem from "@/components/tag-item";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel, FieldSeparator } from "@/components/ui/field";
@@ -8,6 +9,7 @@ export default async function Admin() {
   const tags = await getTags();
   return (
     <>
+      <HeroHeader />
       <div className="w-full px-2 pt-20">
         <div className="mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12">
           <div className=" py-3 lg:gap-0 lg:py-4">
