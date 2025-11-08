@@ -8,7 +8,7 @@ export default function UserDashboardLayout({
 }) {
   return (
     <SidebarProvider className="pt-20">
-      {/* <AppSidebar className="pt-20" /> */}
+      <AppSidebar className="pt-20" />
       <main className="flex-1">{children}</main>
     </SidebarProvider>
   );
