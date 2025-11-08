@@ -38,15 +38,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        {/* <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        /> */}
-        {/* <SearchForm /> */}
+        <h2 className="text-xl font-bold">
+          C<span className="text-primary">A</span>lls
+        </h2>
+
         <div className="flex flex-1 gap-4 justify-center px-2 py-4 mt-20">
-          {/* <h2 className="text-xl font-bold">
-            C<span className="text-primary">A</span>lls
-          </h2> */}
           <Button>New Call</Button>
         </div>
       </SidebarHeader>

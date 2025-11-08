@@ -1,5 +1,11 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { HeroHeader } from "@/components/header";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { Separator } from "@radix-ui/react-dropdown-menu";
 
 export default function UserDashboardLayout({
   children,
@@ -7,10 +13,18 @@ export default function UserDashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider className="pt-20 top-20">
-      {/* <AppSidebar className="pt-20" /> */}
+    <SidebarProvider>
       <AppSidebar />
-      <main className="flex-1">{children}</main>
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <HeroHeader />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
+        </header>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
