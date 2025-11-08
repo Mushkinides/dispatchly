@@ -9,7 +9,7 @@ export const tags = pgTable("tags", {
 });
 
 export type Tag = typeof tags.$inferSelect;
-export type InsertTags = typeof tags.$inferInsert;
+export type InsertTag = typeof tags.$inferInsert;
 
 export const schema = {
   tags,

@@ -1,11 +1,10 @@
 "use server";
 
 import { db } from "@/db/drizzle";
-import { InsertTags, tags } from "@/db/schema";
-import { headers } from "next/headers";
+import { InsertTag, tags } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export const createTag = async (values: InsertTags) => {
+export const createTag = async (values: InsertTag) => {
   try {
     await db.insert(tags).values(values);
 
@@ -37,20 +36,20 @@ export const getTags = async () => {
 //   }
 // };
 
-// export const updateNotebook = async (id: string, values: InsertNotebook) => {
-//   try {
-//     await db.update(notebooks).set(values).where(eq(notebooks.id, id));
-//     return { success: true, message: "Notebook updated successfully" };
-//   } catch {
-//     return { success: false, message: "Failed to update notebook" };
-//   }
-// };
+export const updateTag = async (id: number, values: InsertTag) => {
+  try {
+    await db.update(tags).set(values).where(eq(tags.id, id));
+    return { success: true, message: "Tag updated successfully" };
+  } catch {
+    return { success: false, message: "Failed to update tag" };
+  }
+};
 
-// export const deleteNotebook = async (id: string) => {
-//   try {
-//     await db.delete(notebooks).where(eq(notebooks.id, id));
-//     return { success: true, message: "Notebook deleted successfully" };
-//   } catch {
-//     return { success: false, message: "Failed to delete notebook" };
-//   }
-// };
+export const deleteTag = async (id: number) => {
+  try {
+    await db.delete(tags).where(eq(tags.id, id));
+    return { success: true, message: "Tag deleted successfully" };
+  } catch {
+    return { success: false, message: "Failed to delete tag" };
+  }
+};
