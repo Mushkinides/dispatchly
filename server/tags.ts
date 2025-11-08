@@ -16,7 +16,9 @@ export const createTag = async (values: InsertTag) => {
 
 export const getTags = async () => {
   try {
-    const tags = await db.query.tags.findMany();
+    const tags = await db.query.tags.findMany({
+      orderBy: (tags, { asc }) => [asc(tags.name)],
+    });
 
     return { success: true, tags: tags };
   } catch {
@@ -24,17 +26,16 @@ export const getTags = async () => {
   }
 };
 
-// export const getNotebookById = async (id: string) => {
-//   try {
-//     const notebook = await db.query.notebooks.findFirst({
-//       where: eq(notebooks.id, id),
-//       with: { notes: true },
-//     });
-//     return { success: true, notebook: notebook };
-//   } catch {
-//     return { success: false, message: "Failed to get notebook" };
-//   }
-// };
+export const getTagById = async (id: number) => {
+  try {
+    const tag = await db.query.tags.findFirst({
+      where: eq(tags.id, id),
+    });
+    return { success: true, tag: tag };
+  } catch {
+    return { success: false, message: "Failed to get tag" };
+  }
+};
 
 export const updateTag = async (id: number, values: InsertTag) => {
   try {
