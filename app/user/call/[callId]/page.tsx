@@ -21,8 +21,9 @@ type Params = Promise<{
 export default async function CallPage({ params }: { params: Params }) {
   const { callId: callId } = await params;
   const { call } = await getCallById(callId);
-  const tags = await getTags();
-  const callTags = await getTagsByCallId(callId);
+  const { tags } = await getTags();
+  const { tags: callTags } = await getTagsByCallId(callId);
+  const callTagList = callTags ? callTags : [];
 
   return (
     <PageWrapper
@@ -38,14 +39,16 @@ export default async function CallPage({ params }: { params: Params }) {
         <ItemContent>
           <ItemTitle>{call?.title}</ItemTitle>
 
-          <div className="flex flex-1 gap-2">
-            <Badge>Test</Badge>
-            <Badge>Test</Badge>
-            <Badge>Test</Badge>
+          <div className="flex flex-1 gap-2 flex-wrap">
+            {callTagList.length === 0 ? (
+              <Badge variant="secondary">No tags</Badge>
+            ) : (
+              callTagList.map((t) => <Badge key={String(t.id)}>{t.name}</Badge>)
+            )}
           </div>
         </ItemContent>
         <ItemActions>
-          <AddCallTagButton tags={tags.tags} callTags={callTags.tags} />
+          <AddCallTagButton tags={tags} callTags={callTags} />
         </ItemActions>
       </Item>
 
