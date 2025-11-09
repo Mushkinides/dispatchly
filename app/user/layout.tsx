@@ -1,11 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { HeroHeader } from "@/components/header";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { Separator } from "@radix-ui/react-dropdown-menu";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function UserDashboardLayout({
   children,
