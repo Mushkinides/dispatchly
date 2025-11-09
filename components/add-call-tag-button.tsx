@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,7 +16,7 @@ import { toast } from "sonner";
 import { createCallTag, deleteCallTag } from "@/server/callTags";
 import { useRouter } from "next/navigation";
 
-// type Checked = DropdownMenuCheckboxItemProps["checked"];
+type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 type Tag = {
   id: number;
@@ -91,7 +93,7 @@ export function AddCallTagButton({ callId, tags, callTags }: Props) {
           setAssigned(previousState);
         }
       }
-    } catch {
+    } catch (error) {
       // rollback on error
       toast.error("Failed to update tag assignment");
       setAssigned(previousState);
