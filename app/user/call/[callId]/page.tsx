@@ -1,5 +1,6 @@
 // import { CreateNoteButton } from "@/components/create-note-button";
 // import NoteCard from "@/components/note-card";
+import { AddCallTagButton } from "@/components/add-call-tag-button";
 import { PageWrapper } from "@/components/page-wrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,8 @@ import {
   ItemActions,
 } from "@/components/ui/item";
 import { getCallById } from "@/server/calls";
+import { getTagsByCallId } from "@/server/callTags";
+import { getTags } from "@/server/tags";
 
 type Params = Promise<{
   callId: number;
@@ -17,8 +20,9 @@ type Params = Promise<{
 
 export default async function CallPage({ params }: { params: Params }) {
   const { callId: callId } = await params;
-
   const { call } = await getCallById(callId);
+  const tags = await getTags();
+  const callTags = await getTagsByCallId(callId);
 
   return (
     <PageWrapper
@@ -41,9 +45,7 @@ export default async function CallPage({ params }: { params: Params }) {
           </div>
         </ItemContent>
         <ItemActions>
-          <Button variant="outline" size="sm">
-            Add Tag
-          </Button>
+          <AddCallTagButton tags={tags.tags} callTags={callTags.tags} />
         </ItemActions>
       </Item>
 

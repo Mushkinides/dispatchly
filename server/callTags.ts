@@ -2,7 +2,7 @@
 
 import { db } from "@/db/drizzle";
 import { InsertCallTag, callTags, tags } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export const createCallTag = async (values: InsertCallTag) => {
   try {
@@ -39,11 +39,13 @@ export const getTagsByCallId = async (callId: number) => {
   }
 };
 
-// export const deleteCall = async (id: number) => {
-//   try {
-//     await db.delete(calls).where(eq(calls.id, id));
-//     return { success: true, message: "Call deleted successfully" };
-//   } catch {
-//     return { success: false, message: "Failed to delete call" };
-//   }
-// };
+export const deleteCallTag = async (callId: number, tagId: number) => {
+  try {
+    const result = await db
+      .delete(callTags)
+      .where(and(eq(callTags.callId, callId), eq(callTags.tagId, tagId)));
+    return { success: true, message: "Tag removed successfully", result };
+  } catch {
+    return { success: false, message: "Failed to remove tag" };
+  }
+};
