@@ -23,16 +23,16 @@ export const getCalls = async () => {
   }
 };
 
-// export const getTagById = async (id: number) => {
-//   try {
-//     const tag = await db.query.tags.findFirst({
-//       where: eq(tags.id, id),
-//     });
-//     return { success: true, tag: tag };
-//   } catch {
-//     return { success: false, message: "Failed to get tag" };
-//   }
-// };
+export const getCallById = async (id: number) => {
+  try {
+    const call = await db.query.calls.findFirst({
+      where: eq(calls.id, id),
+    });
+    return { success: true, call: call };
+  } catch {
+    return { success: false, message: "Failed to get call" };
+  }
+};
 
 export const updateCall = async (id: number, values: InsertCall) => {
   try {

@@ -13,10 +13,7 @@ export default async function Page() {
       <CreateCallButton />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {calls.success &&
-          calls?.calls?.map((call) => (
-            // <NotebookCard key={notebook.id} notebook={notebook} />
-            <CallItem key={call.id} call={call} />
-          ))}
+          calls?.calls?.map((call) => <CallItem key={call.id} call={call} />)}
       </div>
       {calls.success && calls?.calls?.length == 0 && <div>No calls found</div>}
     </PageWrapper>

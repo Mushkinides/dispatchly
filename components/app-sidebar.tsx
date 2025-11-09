@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getCalls } from "@/server/calls";
 import { CreateCallButton } from "./create-call-button";
+import Link from "next/link";
 
 export async function AppSidebar({
   ...props
@@ -21,7 +22,7 @@ export async function AppSidebar({
       ...(calls.calls?.map((call) => ({
         id: call.id,
         title: call.title,
-        url: `user/${call.id}`,
+        url: `${call.id}`,
       })) ?? []),
     ],
   };
@@ -41,7 +42,8 @@ export async function AppSidebar({
         {data.navMain.map((call) => (
           <SidebarMenuItem key={call.id}>
             <SidebarMenuButton asChild>
-              <a href={call.url}>{call.title}</a>
+              <Link href={call.url}>{call.title}</Link>
+              {/* <a href={call.url}>{call.title}</a> */}
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
