@@ -24,6 +24,7 @@ export default async function CallPage({ params }: { params: Params }) {
   const { tags } = await getTags();
   const { tags: callTags } = await getTagsByCallId(callId);
   const callTagList = callTags ? callTags : [];
+  const tagList = tags ? tags : [];
 
   return (
     <PageWrapper
@@ -48,7 +49,11 @@ export default async function CallPage({ params }: { params: Params }) {
           </div>
         </ItemContent>
         <ItemActions>
-          <AddCallTagButton tags={tags} callTags={callTags} />
+          <AddCallTagButton
+            callId={callId}
+            tags={tagList}
+            callTags={callTags}
+          />
         </ItemActions>
       </Item>
 
