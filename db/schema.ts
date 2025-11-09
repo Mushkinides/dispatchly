@@ -91,4 +91,5 @@ export const schema = {
   tags,
   calls,
   tasks,
+  callTags,
 };
