@@ -28,6 +28,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { createCall } from "@/server/calls";
+import { CreateCallButton } from "./create-call-button";
 
 const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
@@ -79,33 +80,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <Dialog open={isOpen} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline">New Call</Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <form onSubmit={handleNewCall} className="flex flex-col gap-4">
-              <DialogHeader>
-                <DialogTitle>Create a new Call</DialogTitle>
-                <DialogDescription>
-                  Enter a title for the new Call.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-3">
-                <Input
-                  defaultValue={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </div>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button variant="outline">Cancel</Button>
-                </DialogClose>
-                <Button type="submit">Create</Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <div className="flex gap-4 justify-between">
+          <h3 className="text-bold text-2xl">DAshboard</h3>
+          <CreateCallButton />
+        </div>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
