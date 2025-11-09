@@ -1,6 +1,14 @@
 // import { CreateNoteButton } from "@/components/create-note-button";
 // import NoteCard from "@/components/note-card";
 import { PageWrapper } from "@/components/page-wrapper";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Item,
+  ItemContent,
+  ItemTitle,
+  ItemActions,
+} from "@/components/ui/item";
 import { getCallById } from "@/server/calls";
 
 type Params = Promise<{
@@ -22,7 +30,22 @@ export default async function CallPage({ params }: { params: Params }) {
         },
       ]}
     >
-      <h1>{call?.title}</h1>
+      <Item variant="outline">
+        <ItemContent>
+          <ItemTitle>{call?.title}</ItemTitle>
+
+          <div className="flex flex-1 gap-2">
+            <Badge>Test</Badge>
+            <Badge>Test</Badge>
+            <Badge>Test</Badge>
+          </div>
+        </ItemContent>
+        <ItemActions>
+          <Button variant="outline" size="sm">
+            Add Tag
+          </Button>
+        </ItemActions>
+      </Item>
 
       {/* <CreateNoteButton notebookId={callId} />
 
