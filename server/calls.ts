@@ -34,20 +34,20 @@ export const getCalls = async () => {
 //   }
 // };
 
-// export const updateTag = async (id: number, values: InsertTag) => {
-//   try {
-//     await db.update(tags).set(values).where(eq(tags.id, id));
-//     return { success: true, message: "Tag updated successfully" };
-//   } catch {
-//     return { success: false, message: "Failed to update tag" };
-//   }
-// };
+export const updateCall = async (id: number, values: InsertCall) => {
+  try {
+    await db.update(calls).set(values).where(eq(calls.id, id));
+    return { success: true, message: "Call updated successfully" };
+  } catch {
+    return { success: false, message: "Failed to update call" };
+  }
+};
 
-// export const deleteTag = async (id: number) => {
-//   try {
-//     await db.delete(tags).where(eq(tags.id, id));
-//     return { success: true, message: "Tag deleted successfully" };
-//   } catch {
-//     return { success: false, message: "Failed to delete tag" };
-//   }
-// };
+export const deleteCall = async (id: number) => {
+  try {
+    await db.delete(calls).where(eq(calls.id, id));
+    return { success: true, message: "Call deleted successfully" };
+  } catch {
+    return { success: false, message: "Failed to delete call" };
+  }
+};

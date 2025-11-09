@@ -1,5 +1,5 @@
+import CallItem from "@/components/call-item";
 import { CreateCallButton } from "@/components/create-call-button";
-import NotebookCard from "@/components/notebook-card";
 import { PageWrapper } from "@/components/page-wrapper";
 import { getCalls } from "@/server/calls";
 
@@ -15,9 +15,7 @@ export default async function Page() {
         {calls.success &&
           calls?.calls?.map((call) => (
             // <NotebookCard key={notebook.id} notebook={notebook} />
-            <p className="p-4 border-2" key={call.id}>
-              {call.title}
-            </p>
+            <CallItem key={call.id} call={call} />
           ))}
       </div>
       {calls.success && calls?.calls?.length == 0 && <div>No calls found</div>}
