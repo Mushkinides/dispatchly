@@ -37,10 +37,6 @@ export type Call = typeof calls.$inferSelect & {
 };
 export type InsertCall = typeof calls.$inferInsert;
 
-export const schema = {
-  tags,
-};
-
 // ========== TASKS ==========
 export const tasks = pgTable("tasks", {
   id: serial("id").primaryKey(),
@@ -89,3 +85,11 @@ export const callTagsRelations = relations(callTags, ({ one }) => ({
 
 export type CallTag = typeof callTags.$inferSelect;
 export type InsertCallTag = typeof callTags.$inferInsert;
+
+// ========== SCHEMA_EXPORT ==========
+export const schema = {
+  tags,
+  calls,
+  tasks,
+  callTags,
+};

@@ -7,8 +7,8 @@ export default function UserDashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider className="pt-20">
-      <AppSidebar className="pt-20" />
+    <SidebarProvider>
+      <AppSidebar />
       <main className="flex-1">{children}</main>
     </SidebarProvider>
   );
