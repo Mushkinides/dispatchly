@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,7 +14,7 @@ import { toast } from "sonner";
 import { createCallTag, deleteCallTag } from "@/server/callTags";
 import { useRouter } from "next/navigation";
 
-type Checked = DropdownMenuCheckboxItemProps["checked"];
+// type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 type Tag = {
   id: number;
@@ -24,7 +22,10 @@ type Tag = {
 };
 
 type CallTag = {
-  tagId: number;
+  id: number;
+  name: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 type Props = {
@@ -38,69 +39,62 @@ export function AddCallTagButton({ callId, tags, callTags }: Props) {
 
   // Set of assigned tag ids for fast lookup
   const initialAssigned = React.useMemo(
-    () => new Set(callTags.map((ct) => ct.tagId)),
+    () => new Set(callTags.map((ct) => ct.id)),
     [callTags]
   );
 
   // local state of assigned tag ids (optimistic)
   const [assigned, setAssigned] = React.useState<Set<number>>(initialAssigned);
 
-  console.log("YOMAMA3");
-  console.log(callTags);
-  console.log(initialAssigned);
-  console.log(assigned);
-
-  // keep assigned in sync if props change
+  // Sync state when callTags prop changes from server
   React.useEffect(() => {
-    setAssigned(new Set(initialAssigned));
-  }, [callTags, initialAssigned]);
+    setAssigned(new Set(callTags.map((ct) => ct.id)));
+  }, [callTags]);
 
   // toggle function for a tagId
   const toggleTag = async (tagId: number) => {
-    const id = tagId;
-    const wasAssigned = assigned.has(id);
+    const wasAssigned = assigned.has(tagId);
 
-    console.log("YOMAMA");
-    console.log(wasAssigned);
-    console.log(assigned);
+    // Create previous state for rollback
+    const previousState = new Set(assigned);
 
     // optimistic update
-    const next = new Set(assigned);
-    console.log("YOMAMA2");
-    console.log(next);
-
-    if (wasAssigned) next.delete(id);
-    else next.add(id);
-    setAssigned(next);
+    const nextState = new Set(assigned);
+    if (wasAssigned) {
+      nextState.delete(tagId);
+    } else {
+      nextState.add(tagId);
+    }
+    setAssigned(nextState);
 
     try {
       if (!wasAssigned) {
+        // Add tag
         const res = await createCallTag({ callId, tagId });
 
         if (res.success) {
           toast.success("Tag assigned successfully");
         } else {
           toast.error(res.message);
+          // rollback on server error
+          setAssigned(previousState);
         }
       } else {
-        // remove
-        // const res = await fetch(`/api/calls/${callId}/tags/${id}`, {
-        //   method: "DELETE",
-        // });
-
+        // Remove tag
         const res = await deleteCallTag(callId, tagId);
 
         if (res.success) {
-          toast.success("Tag removed from call successfuly");
+          toast.success("Tag removed from call successfully");
         } else {
           toast.error(res.message);
+          // rollback on server error
+          setAssigned(previousState);
         }
       }
     } catch {
       // rollback on error
       toast.error("Failed to update tag assignment");
-      setAssigned(new Set(assigned)); // revert to previous (assigned was old Set)
-      // small safety: re-fetch is better in production
+      setAssigned(previousState);
     } finally {
       router.refresh();
     }
