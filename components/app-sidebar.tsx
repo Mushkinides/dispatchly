@@ -22,7 +22,7 @@ export async function AppSidebar({
       ...(calls.calls?.map((call) => ({
         id: call.id,
         title: call.title,
-        url: `${call.id}`,
+        url: `/user/call/${call.id}`,
       })) ?? []),
     ],
   };
