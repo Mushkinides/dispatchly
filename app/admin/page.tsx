@@ -1,12 +1,13 @@
 import AddTagCard from "@/components/add-tag-card";
 import { HeroHeader } from "@/components/header";
 import TagItem from "@/components/tag-item";
-import { Button } from "@/components/ui/button";
 import { Field, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { getTags } from "@/server/tags";
 
+// Force dynamic rendering and disable all caching
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export default async function Admin() {
   const tags = await getTags();

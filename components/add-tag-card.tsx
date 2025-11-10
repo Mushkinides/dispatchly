@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 
 const AddTagCard = () => {
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   function clearInput() {
@@ -20,12 +21,14 @@ const AddTagCard = () => {
     if (event) event.preventDefault();
     const name = input.trim();
     if (!name) return;
+
+    setIsLoading(true);
     try {
-      // setIsLoading(true);
       const res = await createTag({ name });
       if (res.success) {
         setInput("");
         toast.success("Tag created successfully");
+        // Force a hard refresh of the page data
         router.refresh();
       } else {
         toast.error(res.message);
@@ -34,7 +37,7 @@ const AddTagCard = () => {
       console.error(e);
       toast.error("Failed to create tag");
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -55,13 +58,19 @@ const AddTagCard = () => {
                 required
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                disabled={isLoading}
               />
 
               <div className="flex justify-end gap-2">
-                <Button type="submit" disabled={input ? false : true}>
-                  Add
+                <Button type="submit" disabled={!input || isLoading}>
+                  {isLoading ? "Adding..." : "Add"}
                 </Button>
-                <Button variant="outline" type="button" onClick={clearInput}>
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={clearInput}
+                  disabled={isLoading}
+                >
                   Clear
                 </Button>
               </div>

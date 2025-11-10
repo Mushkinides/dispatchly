@@ -8,7 +8,8 @@ import { revalidatePath } from "next/cache";
 export const createTag = async (values: InsertTag) => {
   try {
     const [tag] = await db.insert(tags).values(values).returning();
-    revalidatePath("/admin");
+    revalidatePath("/admin", "page");
+    revalidatePath("/user", "layout");
     return { success: true, message: "Tag created successfully", tag };
   } catch (error) {
     console.error("createTag error:", error);
@@ -34,7 +35,8 @@ export const updateTag = async (tagId: number, values: Partial<InsertTag>) => {
       .where(eq(tags.id, tagId))
       .returning();
 
-    revalidatePath("/admin");
+    revalidatePath("/admin", "page");
+    revalidatePath("/user", "layout");
     return { success: true, message: "Tag updated successfully", tag };
   } catch (error) {
     console.error("updateTag error:", error);
@@ -45,7 +47,8 @@ export const updateTag = async (tagId: number, values: Partial<InsertTag>) => {
 export const deleteTag = async (tagId: number) => {
   try {
     await db.delete(tags).where(eq(tags.id, tagId));
-    revalidatePath("/admin");
+    revalidatePath("/admin", "page");
+    revalidatePath("/user", "layout");
     return { success: true, message: "Tag deleted successfully" };
   } catch (error) {
     console.error("deleteTag error:", error);
