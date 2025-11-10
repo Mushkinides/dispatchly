@@ -14,6 +14,10 @@ import { getTagsByCallId } from "@/server/callTags";
 import { getTags } from "@/server/tags";
 import { getTasksByCallId } from "@/server/tasks";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 type Params = Promise<{
   callId: number;
 }>;
