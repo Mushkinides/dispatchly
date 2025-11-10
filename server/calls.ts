@@ -3,11 +3,12 @@
 import { db } from "@/db/drizzle";
 import { InsertCall, calls } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const createCall = async (values: InsertCall) => {
   try {
     await db.insert(calls).values(values);
-
+    revalidatePath(`/user/call/${values.id}`);
     return { success: true, message: "Call created successfully" };
   } catch {
     return { success: false, message: "Failed to create call" };
@@ -37,6 +38,7 @@ export const getCallById = async (id: number) => {
 export const updateCall = async (id: number, values: InsertCall) => {
   try {
     await db.update(calls).set(values).where(eq(calls.id, id));
+    revalidatePath(`/user/call/${id}`);
     return { success: true, message: "Call updated successfully" };
   } catch {
     return { success: false, message: "Failed to update call" };
@@ -46,6 +48,7 @@ export const updateCall = async (id: number, values: InsertCall) => {
 export const deleteCall = async (id: number) => {
   try {
     await db.delete(calls).where(eq(calls.id, id));
+    revalidatePath(`/user/call/${id}`);
     return { success: true, message: "Call deleted successfully" };
   } catch {
     return { success: false, message: "Failed to delete call" };
