@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { getTags } from "@/server/tags";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function Admin() {
   const tags = await getTags();
   return (

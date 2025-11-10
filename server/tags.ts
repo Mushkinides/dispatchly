@@ -3,54 +3,52 @@
 import { db } from "@/db/drizzle";
 import { InsertTag, tags } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const createTag = async (values: InsertTag) => {
   try {
-    await db.insert(tags).values(values);
-
-    return { success: true, message: "Tag created successfully" };
-  } catch {
+    const [tag] = await db.insert(tags).values(values).returning();
+    revalidatePath("/admin");
+    return { success: true, message: "Tag created successfully", tag };
+  } catch (error) {
+    console.error("createTag error:", error);
     return { success: false, message: "Failed to create tag" };
   }
 };
 
 export const getTags = async () => {
   try {
-    const tags = await db.query.tags.findMany({
-      orderBy: (tags, { asc }) => [asc(tags.name)],
-    });
-
-    return { success: true, tags: tags };
-  } catch {
-    return { success: false, message: "Failed to get tags" };
+    const tagList = await db.select().from(tags).orderBy(tags.createdAt);
+    return { success: true, tags: tagList };
+  } catch (error) {
+    console.error("getTags error:", error);
+    return { success: false, message: "Failed to get tags", tags: [] };
   }
 };
 
-export const getTagById = async (id: number) => {
+export const updateTag = async (tagId: number, values: Partial<InsertTag>) => {
   try {
-    const tag = await db.query.tags.findFirst({
-      where: eq(tags.id, id),
-    });
-    return { success: true, tag: tag };
-  } catch {
-    return { success: false, message: "Failed to get tag" };
-  }
-};
+    const [tag] = await db
+      .update(tags)
+      .set({ ...values, updatedAt: new Date() })
+      .where(eq(tags.id, tagId))
+      .returning();
 
-export const updateTag = async (id: number, values: InsertTag) => {
-  try {
-    await db.update(tags).set(values).where(eq(tags.id, id));
-    return { success: true, message: "Tag updated successfully" };
-  } catch {
+    revalidatePath("/admin");
+    return { success: true, message: "Tag updated successfully", tag };
+  } catch (error) {
+    console.error("updateTag error:", error);
     return { success: false, message: "Failed to update tag" };
   }
 };
 
-export const deleteTag = async (id: number) => {
+export const deleteTag = async (tagId: number) => {
   try {
-    await db.delete(tags).where(eq(tags.id, id));
+    await db.delete(tags).where(eq(tags.id, tagId));
+    revalidatePath("/admin");
     return { success: true, message: "Tag deleted successfully" };
-  } catch {
+  } catch (error) {
+    console.error("deleteTag error:", error);
     return { success: false, message: "Failed to delete tag" };
   }
 };
