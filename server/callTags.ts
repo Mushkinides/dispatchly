@@ -3,11 +3,12 @@
 import { db } from "@/db/drizzle";
 import { InsertCallTag, callTags, tags } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const createCallTag = async (values: InsertCallTag) => {
   try {
     await db.insert(callTags).values(values);
-
+    revalidatePath(`/user/call/${values.callId}`);
     return { success: true, message: "Tag added to call successfully" };
   } catch {
     return { success: false, message: "Failed to add the tag to the call" };
@@ -44,6 +45,7 @@ export const deleteCallTag = async (callId: number, tagId: number) => {
     const result = await db
       .delete(callTags)
       .where(and(eq(callTags.callId, callId), eq(callTags.tagId, tagId)));
+    revalidatePath(`/user/call/${callId}`);
     return { success: true, message: "Tag removed successfully", result };
   } catch {
     return { success: false, message: "Failed to remove tag" };
